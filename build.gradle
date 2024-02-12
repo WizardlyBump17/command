@@ -11,9 +11,17 @@ repositories {
 }
 
 dependencies {
+    testImplementation(
+            platform('org.junit:junit-bom:5.10.2'),
+            'org.junit.jupiter:junit-jupiter'
+    )
     implementation(
             'org.projectlombok:lombok:1.18.30',
             'org.jetbrains:annotations:24.1.0',
     )
     annotationProcessor('org.projectlombok:lombok:1.18.30')
+}
+
+test {
+    useJUnitPlatform()
 }

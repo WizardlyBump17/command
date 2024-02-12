@@ -49,13 +49,17 @@ public class Main {
         });
         manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct2", 1, null)));
         manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3", 1, null), () -> CommandExecutionResult.exceptionally(new RuntimeException("Direct command with exception"))));
+        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3 test", 1, null)));
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print(">> ");
 
+            ConsoleSender sender = new ConsoleSender();
+
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                manager.execute(new ConsoleSender(), line)
+
+                manager.execute(sender, line)
                         .map(pair -> {
                             CommandExecutionResult result = pair.second();
                             System.out.println(result);
