@@ -1,0 +1,19 @@
+apply plugin: 'java'
+
+group = 'com.wizardlybump17.command'
+version = '1.0.0'
+
+targetCompatibility = JavaVersion.VERSION_21
+sourceCompatibility = JavaVersion.VERSION_21
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(
+            'org.projectlombok:lombok:1.18.30',
+            'org.jetbrains:annotations:24.1.0',
+    )
+    annotationProcessor('org.projectlombok:lombok:1.18.30')
+}
