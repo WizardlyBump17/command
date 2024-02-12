@@ -22,7 +22,7 @@ public class MethodCommandFactory extends CommandFactory<Object, RegisteredMetho
     }
 
     @Override
-    public @NonNull List<RegisteredMethodCommand> create(@NonNull Object object) {
+    public @NonNull List<RegisteredMethodCommand> createCommands(@NonNull Object object) {
         List<RegisteredMethodCommand> commands = new ArrayList<>();
 
         Class<?> clazz = object.getClass();

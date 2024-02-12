@@ -22,7 +22,7 @@ public class DirectCommandFactory extends CommandFactory<CommandExecutor, Direct
      * @return a {@link List} with a single {@link DirectRegisteredCommand}
      */
     @Override
-    public @NonNull List<DirectRegisteredCommand> create(@NonNull CommandExecutor object) {
+    public @NonNull List<DirectRegisteredCommand> createCommands(@NonNull CommandExecutor object) {
         return List.of(new DirectRegisteredCommand(object));
     }
 }

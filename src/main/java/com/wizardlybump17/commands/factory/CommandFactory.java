@@ -17,5 +17,5 @@ public abstract class CommandFactory<T, C extends RegisteredCommand<?>> {
      * @param object the object to create the commands from
      * @return the list of commands
      */
-    public abstract @NonNull List<C> create(@NonNull T object);
+    public abstract @NonNull List<C> createCommands(@NonNull T object);
 }

@@ -29,10 +29,10 @@ public class Main {
         ArgumentParserRegistry.INSTANCE.add(new StringParser());
 
         CommandManager manager = new CommandManager();
-        manager.registerCommand(new MethodCommandFactory(logger), new TestCommands());
+        manager.registerCommands(new MethodCommandFactory(logger), new TestCommands());
 
         DirectCommandFactory directCommandFactory = new DirectCommandFactory(logger);
-        manager.registerCommand(directCommandFactory, new CommandExecutor() {
+        manager.registerCommands(directCommandFactory, new CommandExecutor() {
 
             private final @NonNull Command command = new Command("direct", 1, null);
 
@@ -47,8 +47,8 @@ public class Main {
                 return CommandExecutionResult.success();
             }
         });
-        manager.registerCommand(directCommandFactory, new BasicCommandExecutor(new Command("direct2", 1, null)));
-        manager.registerCommand(directCommandFactory, new BasicCommandExecutor(new Command("direct3", 1, null), () -> CommandExecutionResult.exceptionally(new RuntimeException("Direct command with exception"))));
+        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct2", 1, null)));
+        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3", 1, null), () -> CommandExecutionResult.exceptionally(new RuntimeException("Direct command with exception"))));
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print(">> ");

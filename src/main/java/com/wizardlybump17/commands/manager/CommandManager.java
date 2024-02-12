@@ -40,8 +40,8 @@ public class CommandManager {
         return Optional.empty();
     }
 
-    public <T, C extends RegisteredCommand<?>> @NonNull List<C> registerCommand(@NonNull CommandFactory<T, C> factory, @NonNull T object) {
-        List<C> commands = factory.create(object);
+    public <T, C extends RegisteredCommand<?>> @NonNull List<C> registerCommands(@NonNull CommandFactory<T, C> factory, @NonNull T object) {
+        List<C> commands = factory.createCommands(object);
         this.commands.addAll(commands);
         return commands;
     }
