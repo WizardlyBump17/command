@@ -34,6 +34,8 @@ public abstract class RegisteredCommand<E extends CommandExecutor> implements Co
     }
 
     /**
+     * <p>Executes the command with the given arguments.</p>
+     * <p>Generally called by the {@link com.wizardlybump17.commands.manager.CommandManager#execute(CommandSender, String)} method.</p>
      * @param sender who is executing the command
      * @param arguments the command arguments
      * @return if the command was executed
