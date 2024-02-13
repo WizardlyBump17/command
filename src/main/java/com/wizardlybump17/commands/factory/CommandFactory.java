@@ -7,6 +7,11 @@ import lombok.NonNull;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * <p>A factory that creates commands from the given object.</p>
+ * @param <T> the type of the object to create the commands from
+ * @param <C> the type of the commands that are created
+ */
 @Data
 public abstract class CommandFactory<T, C extends RegisteredCommand<?>> {
 

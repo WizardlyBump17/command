@@ -21,9 +21,9 @@ public class CommandManager {
      *     Parses the given command into a {@link List} of arguments and iterates over all registered commands until one
      *     of the {@link RegisteredCommand#execute(CommandSender, List)} returns a {@link CommandExecutionResult#stopExecution()} that returns true.
      * </p>
-     * @param sender
-     * @param command
-     * @return
+     * @param sender who is executing the command
+     * @param command the command to be executed
+     * @return an {@link Optional} containing the result of the command execution, if any
      */
     public @NonNull Optional<CommandExecutionResult> execute(@NonNull CommandSender<?> sender, @NonNull String command) {
         List<String> arguments = Arguments.getArguments(command);
