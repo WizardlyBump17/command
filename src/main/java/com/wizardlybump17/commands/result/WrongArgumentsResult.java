@@ -1,13 +1,7 @@
 package com.wizardlybump17.commands.result;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.wizardlybump17.commands.command.Command;
 import lombok.NonNull;
-import lombok.ToString;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
-public class WrongArgumentsResult implements CommandExecutionResult {
-
-    public static final @NonNull WrongArgumentsResult INSTANCE = new WrongArgumentsResult();
+public record WrongArgumentsResult(@NonNull Command command) implements CommandExecutionResult {
 }

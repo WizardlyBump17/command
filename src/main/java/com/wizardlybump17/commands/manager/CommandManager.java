@@ -1,7 +1,6 @@
 package com.wizardlybump17.commands.manager;
 
 import com.wizardlybump17.commands.factory.CommandFactory;
-import com.wizardlybump17.commands.pair.Pair;
 import com.wizardlybump17.commands.registered.RegisteredCommand;
 import com.wizardlybump17.commands.result.CommandExecutionResult;
 import com.wizardlybump17.commands.sender.CommandSender;
@@ -26,7 +25,7 @@ public class CommandManager {
      * @param command
      * @return
      */
-    public @NonNull Optional<Pair<RegisteredCommand<?>, CommandExecutionResult>> execute(@NonNull CommandSender<?> sender, @NonNull String command) {
+    public @NonNull Optional<CommandExecutionResult> execute(@NonNull CommandSender<?> sender, @NonNull String command) {
         List<String> arguments = Arguments.getArguments(command);
         if (arguments.isEmpty())
             return Optional.empty();
@@ -34,7 +33,7 @@ public class CommandManager {
         for (RegisteredCommand<?> registeredCommand : commands) {
             CommandExecutionResult result = registeredCommand.execute(sender, arguments);
             if (result.stopExecution())
-                return Optional.of(Pair.of(registeredCommand, result));
+                return Optional.of(result);
         }
 
         return Optional.empty();

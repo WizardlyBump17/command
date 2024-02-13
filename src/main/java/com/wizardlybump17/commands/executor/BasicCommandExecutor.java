@@ -27,11 +27,11 @@ public class BasicCommandExecutor implements CommandExecutor {
     }
 
     /**
-     * <p>Creates a new {@link BasicCommandExecutor} with the given {@link Command} and with the {@link CommandExecutionResult#success()} as the result supplier.</p>
+     * <p>Creates a new {@link BasicCommandExecutor} with the given {@link Command} and with the {@link CommandExecutionResult#success(Command)} as the result supplier.</p>
      * @param command the command to be executed
      */
     public BasicCommandExecutor(@NonNull Command command) {
-        this(command, CommandExecutionResult::success);
+        this(command, () -> CommandExecutionResult.success(command));
     }
 
     @Override

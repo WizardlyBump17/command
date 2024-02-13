@@ -26,9 +26,9 @@ public record MethodCommandExecutor(@NonNull Object object, @NonNull MethodHandl
             Object returnedValue = methodHandle.invokeWithArguments(arguments);
             if (returnedValue instanceof CommandExecutionResult result)
                 return result;
-            return CommandExecutionResult.success();
-        } catch (Throwable e) {
-            return CommandExecutionResult.exceptionally(e);
+            return CommandExecutionResult.success(command);
+        } catch (Throwable throwable) {
+            return CommandExecutionResult.exceptionally(command, throwable);
         }
     }
 }

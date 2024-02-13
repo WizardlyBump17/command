@@ -42,7 +42,7 @@ public abstract class RegisteredCommand<E extends CommandExecutor> implements Co
      */
     public @NonNull CommandExecutionResult execute(@NonNull CommandSender<?> sender, @NonNull List<String> arguments) {
         if (nodes.size() > arguments.size())
-            return CommandExecutionResult.wrongArgumentsSize();
+            return CommandExecutionResult.wrongArgumentsSize(getCommand());
 
         List<Object> parsedArguments = new ArrayList<>(nodes.size());
 
@@ -54,17 +54,17 @@ public abstract class RegisteredCommand<E extends CommandExecutor> implements Co
             if (parser == null) {
                 if (node.aliases().contains(argument.toLowerCase()))
                     continue;
-                return CommandExecutionResult.wrongArguments();
+                return CommandExecutionResult.wrongArguments(getCommand());
             }
 
             if (!parser.isValid(argument))
-                return CommandExecutionResult.invalidArgument(argument, parser);
+                return CommandExecutionResult.invalidArgument(getCommand(), argument, parser);
 
             parsedArguments.add(parser.parse(argument));
         }
 
         if (!executor.canExecute(sender))
-            return CommandExecutionResult.missingPermission(getCommand().permission());
+            return CommandExecutionResult.missingPermission(getCommand(), getCommand().permission());
 
         return executor.execute(sender, parsedArguments);
     }

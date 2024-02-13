@@ -44,11 +44,14 @@ public class Main {
             @Override
             public @NonNull CommandExecutionResult execute(@NonNull CommandSender<?> sender, @NonNull List<Object> arguments) {
                 System.out.println("Direct command");
-                return CommandExecutionResult.success();
+                return CommandExecutionResult.success(command);
             }
         });
         manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct2", 1, null)));
-        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3", 1, null), () -> CommandExecutionResult.exceptionally(new RuntimeException("Direct command with exception"))));
+
+        Command direct3 = new Command("direct3", 1, null);
+        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(direct3, () -> CommandExecutionResult.exceptionally(direct3, new RuntimeException("Direct command with exception"))));
+
         manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3 test", 1, null)));
 
         try (Scanner scanner = new Scanner(System.in)) {
@@ -60,12 +63,11 @@ public class Main {
                 String line = scanner.nextLine();
 
                 manager.execute(sender, line)
-                        .map(pair -> {
-                            CommandExecutionResult result = pair.second();
+                        .map(result -> {
                             System.out.println(result);
                             if (result instanceof ExceptionResult exceptionResult)
-                                Logger.getLogger("Main").log(Level.SEVERE, "Error while executing the command " + pair.first().getCommand(), exceptionResult.exception());
-                            return pair;
+                                Logger.getLogger("Main").log(Level.SEVERE, "Error while executing the command " + result.command(), exceptionResult.exception());
+                            return result;
                         })
                         .orElseGet(() -> {
                             System.out.println("Failed");

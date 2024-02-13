@@ -1,15 +1,9 @@
 package com.wizardlybump17.commands.result;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import com.wizardlybump17.commands.command.Command;
 import lombok.NonNull;
-import lombok.ToString;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
-public class SuccessfulResult implements CommandExecutionResult {
-
-    public static final @NonNull SuccessfulResult INSTANCE = new SuccessfulResult();
+public record SuccessfulResult(@NonNull Command command) implements CommandExecutionResult {
 
     @Override
     public boolean stopExecution() {

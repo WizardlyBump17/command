@@ -3,13 +3,12 @@ package com.wizardlybump17.commands;
 import com.wizardlybump17.commands.annotation.Command;
 import com.wizardlybump17.commands.factory.MethodCommandFactory;
 import com.wizardlybump17.commands.manager.CommandManager;
-import com.wizardlybump17.commands.pair.Pair;
 import com.wizardlybump17.commands.parser.IntegerParser;
 import com.wizardlybump17.commands.parser.StringParser;
-import com.wizardlybump17.commands.registered.RegisteredCommand;
 import com.wizardlybump17.commands.registry.ArgumentParserRegistry;
 import com.wizardlybump17.commands.result.CommandExecutionResult;
 import com.wizardlybump17.commands.result.MissingPermissionResult;
+import com.wizardlybump17.commands.result.SuccessfulResult;
 import com.wizardlybump17.commands.sender.CommandSender;
 import com.wizardlybump17.commands.sender.PermissibleSender;
 import lombok.NonNull;
@@ -20,7 +19,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PermissionsTest {
 
@@ -44,11 +44,11 @@ public class PermissionsTest {
     @Test
     void testNoPermission() {
         CommandSender<?> sender = new PermissibleSender(Set.of("test.success"));
-        Optional<Pair<RegisteredCommand<?>, CommandExecutionResult>> optional = COMMAND_MANAGER.execute(sender, "test no-permission");
+        Optional<CommandExecutionResult> optional = COMMAND_MANAGER.execute(sender, "test no-permission");
 
         assertTrue(optional.isPresent());
 
-        CommandExecutionResult result = optional.get().second();
+        CommandExecutionResult result = optional.get();
         assertTrue(result instanceof MissingPermissionResult);
         assertEquals("test.permission", ((MissingPermissionResult) result).permission());
     }
@@ -56,11 +56,11 @@ public class PermissionsTest {
     @Test
     void testNoPermission2() {
         CommandSender<?> sender = new PermissibleSender(Set.of("test.success"));
-        Optional<Pair<RegisteredCommand<?>, CommandExecutionResult>> optional = COMMAND_MANAGER.execute(sender, "test no-permission2");
+        Optional<CommandExecutionResult> optional = COMMAND_MANAGER.execute(sender, "test no-permission2");
 
         assertTrue(optional.isPresent());
 
-        CommandExecutionResult result = optional.get().second();
+        CommandExecutionResult result = optional.get();
         assertTrue(result instanceof MissingPermissionResult);
         assertEquals("test.permission2", ((MissingPermissionResult) result).permission());
     }
@@ -68,9 +68,9 @@ public class PermissionsTest {
     @Test
     void testSuccess() {
         CommandSender<?> sender = new PermissibleSender(Set.of("test.success"));
-        Optional<Pair<RegisteredCommand<?>, CommandExecutionResult>> optional = COMMAND_MANAGER.execute(sender, "test success");
+        Optional<CommandExecutionResult> optional = COMMAND_MANAGER.execute(sender, "test success");
         assertTrue(optional.isPresent());
-        assertSame(optional.get().second(), CommandExecutionResult.success());
+        assertTrue(optional.get() instanceof SuccessfulResult);
     }
 
     @Command(value = "test no-permission", permission = "test.permission")
