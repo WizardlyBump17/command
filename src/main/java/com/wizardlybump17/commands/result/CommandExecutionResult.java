@@ -40,4 +40,8 @@ public interface CommandExecutionResult {
     static @NonNull InvalidArgumentResult invalidArgument(@NonNull Command command, @NonNull String argument, @NonNull ArgumentParser<?> parser) {
         return new InvalidArgumentResult(command, argument, parser);
     }
+
+    static @NonNull InvalidCommandSenderResult invalidCommandSender(@NonNull Command command, @NonNull Class<?> expected, @NonNull Class<?> got) {
+        return new InvalidCommandSenderResult(command, expected, got);
+    }
 }
