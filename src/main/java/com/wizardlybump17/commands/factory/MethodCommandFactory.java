@@ -3,6 +3,7 @@ package com.wizardlybump17.commands.factory;
 import com.wizardlybump17.commands.annotation.Command;
 import com.wizardlybump17.commands.executor.MethodCommandExecutor;
 import com.wizardlybump17.commands.registered.RegisteredMethodCommand;
+import com.wizardlybump17.commands.sender.CommandSender;
 import lombok.NonNull;
 
 import java.lang.invoke.MethodHandle;
@@ -59,6 +60,17 @@ public class MethodCommandFactory extends CommandFactory<Object, RegisteredMetho
             if (annotation == null)
                 continue;
 
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            if (parameterTypes.length < 1) {
+                getLogger().warning("The method " + method.getName() + " has no parameters and cannot be registered as a command.");
+                continue;
+            }
+
+            if (!CommandSender.class.isAssignableFrom(parameterTypes[0])) {
+                getLogger().warning("The method " + method.getName() + " has its first parameter that is not a CommandSender and cannot be registered as a command.");
+                continue;
+            }
+
             if (!Modifier.isPublic(method.getModifiers())) {
                 getLogger().warning("The method " + method.getName() + " is not public and cannot be registered as a command.");
                 continue;
@@ -71,7 +83,7 @@ public class MethodCommandFactory extends CommandFactory<Object, RegisteredMetho
 
             MethodHandle handle;
             try {
-                handle = MethodHandles.lookup().findVirtual(clazz, method.getName(), MethodType.methodType(method.getReturnType(), method.getParameterTypes()));
+                handle = MethodHandles.lookup().findVirtual(clazz, method.getName(), MethodType.methodType(method.getReturnType(), parameterTypes));
             } catch (NoSuchMethodException | IllegalAccessException e) {
                 getLogger().log(Level.SEVERE, "Error while fetching the method " + method.getName(), e);
                 continue;
@@ -80,7 +92,8 @@ public class MethodCommandFactory extends CommandFactory<Object, RegisteredMetho
             com.wizardlybump17.commands.command.Command command = new com.wizardlybump17.commands.command.Command(
                     annotation.value(),
                     annotation.priority(),
-                    annotation.permission().isEmpty() ? null : annotation.permission()
+                    annotation.permission().isEmpty() ? null : annotation.permission(),
+                    parameterTypes[0]
             );
             MethodCommandExecutor executor = new MethodCommandExecutor(object, handle, method, command);
 

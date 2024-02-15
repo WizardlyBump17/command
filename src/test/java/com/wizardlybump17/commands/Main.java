@@ -34,7 +34,7 @@ public class Main {
         DirectCommandFactory directCommandFactory = new DirectCommandFactory(logger);
         manager.registerCommands(directCommandFactory, new CommandExecutor() {
 
-            private final @NonNull Command command = new Command("direct", 1, null);
+            private final @NonNull Command command = new Command("direct", 1, null, CommandSender.class);
 
             @Override
             public @NonNull Command getCommand() {
@@ -47,12 +47,12 @@ public class Main {
                 return CommandExecutionResult.success(command);
             }
         });
-        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct2", 1, null)));
+        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct2", 1, null, CommandSender.class)));
 
-        Command direct3 = new Command("direct3", 1, null);
+        Command direct3 = new Command("direct3", 1, null, CommandSender.class);
         manager.registerCommands(directCommandFactory, new BasicCommandExecutor(direct3, () -> CommandExecutionResult.exceptionally(direct3, new RuntimeException("Direct command with exception"))));
 
-        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3 test", 1, null)));
+        manager.registerCommands(directCommandFactory, new BasicCommandExecutor(new Command("direct3 test", 1, null, CommandSender.class)));
 
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print(">> ");
