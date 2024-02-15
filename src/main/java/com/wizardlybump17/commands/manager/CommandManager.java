@@ -45,6 +45,7 @@ public class CommandManager {
 
     public <T, C extends RegisteredCommand<?>> @NonNull List<C> registerCommands(@NonNull CommandFactory<T, C> factory, @NonNull T object) {
         List<C> commands = factory.createCommands(object);
+        commands.removeIf(command -> !command.onRegister(this));
         this.commands.addAll(commands);
         return commands;
     }

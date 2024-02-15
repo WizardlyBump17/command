@@ -2,6 +2,7 @@ package com.wizardlybump17.commands.registered;
 
 import com.wizardlybump17.commands.command.Command;
 import com.wizardlybump17.commands.executor.CommandExecutor;
+import com.wizardlybump17.commands.manager.CommandManager;
 import com.wizardlybump17.commands.node.ArgumentNode;
 import com.wizardlybump17.commands.parser.ArgumentParser;
 import com.wizardlybump17.commands.result.CommandExecutionResult;
@@ -72,5 +73,14 @@ public abstract class RegisteredCommand<E extends CommandExecutor> implements Co
     @Override
     public int compareTo(@NonNull RegisteredCommand<?> other) {
         return other.getPriority() > getPriority() ? 1 : -1;
+    }
+
+    /**
+     * <p>Called when this command is about to be registered by the given {@link CommandManager}.</p>
+     * @param commandManager the command manager that is registering this command
+     * @return if this command can be registered
+     */
+    public boolean onRegister(@NonNull CommandManager commandManager) {
+        return true;
     }
 }
