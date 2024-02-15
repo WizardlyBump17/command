@@ -23,4 +23,8 @@ public record Command(@NonNull String execution, int priority, @Nullable String 
 
         this.senderType = senderType;
     }
+
+    public boolean isValidSender(@NonNull CommandSender<?> sender) {
+        return senderType.isAssignableFrom(sender.getClass());
+    }
 }
