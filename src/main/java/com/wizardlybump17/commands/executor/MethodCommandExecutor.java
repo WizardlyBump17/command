@@ -19,6 +19,9 @@ public record MethodCommandExecutor(@NonNull Object object, @NonNull MethodHandl
 
     @Override
     public @NonNull CommandExecutionResult execute(@NonNull CommandSender<?> sender, @NonNull List<Object> arguments) {
+        if (!command.isValidSender(sender))
+            return CommandExecutionResult.invalidCommandSender(command, command.senderType(), sender.getClass());
+
         arguments = new ArrayList<>(arguments);
         arguments.add(0, object);
         arguments.add(1, sender);
