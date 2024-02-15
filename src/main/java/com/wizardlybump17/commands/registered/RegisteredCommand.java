@@ -64,6 +64,9 @@ public abstract class RegisteredCommand<E extends CommandExecutor> implements Co
             parsedArguments.add(parser.parse(argument));
         }
 
+        if (!getCommand().isValidSender(sender))
+            return CommandExecutionResult.invalidCommandSender(getCommand(), getCommand().senderType(), sender.getClass());
+
         if (!executor.canExecute(sender))
             return CommandExecutionResult.failure(getCommand());
 
