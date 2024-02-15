@@ -66,6 +66,9 @@ public abstract class RegisteredCommand<E extends CommandExecutor> implements Co
 
         if (!getCommand().isValidSender(sender))
             return CommandExecutionResult.invalidCommandSender(getCommand(), getCommand().senderType(), sender.getClass());
+        
+        if (!sender.hasPermission(getCommand().permission()))
+            return CommandExecutionResult.missingPermission(getCommand(), getCommand().permission());
 
         if (!executor.canExecute(sender))
             return CommandExecutionResult.failure(getCommand());
