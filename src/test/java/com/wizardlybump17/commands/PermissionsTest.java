@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PermissionsTest {
 
-    private static final @NonNull CommandManager COMMAND_MANAGER = new CommandManager();
+    private static final @NonNull CommandManager COMMAND_MANAGER = new CommandManager(Logger.getLogger("CommandManager"));
 
     @BeforeAll
     public static void setup() {

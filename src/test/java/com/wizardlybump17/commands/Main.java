@@ -23,12 +23,12 @@ import java.util.logging.Logger;
 public class Main {
 
     public static void main(String[] args) {
-        Logger logger = Logger.getLogger("CommandFactory");
+        Logger logger = Logger.getLogger("Main");
 
         ArgumentParserRegistry.INSTANCE.add(new IntegerParser());
         ArgumentParserRegistry.INSTANCE.add(new StringParser());
 
-        CommandManager manager = new CommandManager();
+        CommandManager manager = new CommandManager(logger);
         manager.registerCommands(new MethodCommandFactory(logger), new TestCommands());
 
         DirectCommandFactory directCommandFactory = new DirectCommandFactory(logger);
@@ -66,7 +66,7 @@ public class Main {
                         .map(result -> {
                             System.out.println(result);
                             if (result instanceof ExceptionResult exceptionResult)
-                                Logger.getLogger("Main").log(Level.SEVERE, "Error while executing the command " + result.command(), exceptionResult.exception());
+                                logger.log(Level.SEVERE, "Error while executing the command " + result.command(), exceptionResult.exception());
                             return result;
                         })
                         .orElseGet(() -> {
