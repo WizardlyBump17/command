@@ -11,6 +11,7 @@ import com.wizardlybump17.commands.result.MissingPermissionResult;
 import com.wizardlybump17.commands.result.SuccessfulResult;
 import com.wizardlybump17.commands.sender.CommandSender;
 import com.wizardlybump17.commands.sender.PermissibleSender;
+import com.wizardlybump17.commands.util.AssertionUtil;
 import lombok.NonNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PermissionsTest {
@@ -46,11 +46,8 @@ public class PermissionsTest {
         CommandSender<?> sender = new PermissibleSender(Set.of("test.success"));
         Optional<CommandExecutionResult> optional = COMMAND_MANAGER.execute(sender, "test no-permission");
 
-        assertTrue(optional.isPresent());
-
-        CommandExecutionResult result = optional.get();
-        assertTrue(result instanceof MissingPermissionResult);
-        assertEquals("test.permission", ((MissingPermissionResult) result).permission());
+        AssertionUtil.assertTrue(optional, result -> result instanceof MissingPermissionResult);
+        AssertionUtil.assertEquals(optional, result -> ((MissingPermissionResult) result).permission(), "test.permission");
     }
 
     @Test
@@ -58,11 +55,8 @@ public class PermissionsTest {
         CommandSender<?> sender = new PermissibleSender(Set.of("test.success"));
         Optional<CommandExecutionResult> optional = COMMAND_MANAGER.execute(sender, "test no-permission2");
 
-        assertTrue(optional.isPresent());
-
-        CommandExecutionResult result = optional.get();
-        assertTrue(result instanceof MissingPermissionResult);
-        assertEquals("test.permission2", ((MissingPermissionResult) result).permission());
+        AssertionUtil.assertTrue(optional, result -> result instanceof MissingPermissionResult);
+        AssertionUtil.assertEquals(optional, result -> ((MissingPermissionResult) result).permission(), "test.permission2");
     }
 
     @Test
