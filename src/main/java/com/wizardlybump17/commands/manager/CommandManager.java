@@ -43,6 +43,17 @@ public class CommandManager {
         return Optional.empty();
     }
 
+    /**
+     * <p>
+     *     Calls the {@link CommandFactory#createCommands(Object)} method using the given object as parameter.<br>
+     *     Then, it removes all commands that returned {@code false} from the {@link RegisteredCommand#onRegister(CommandManager)} method and adds the rest to the {@link #getCommands()} set.
+     * </p>
+     * @param factory the factory that will create the commands
+     * @param object the object that will be used to create the commands
+     * @return a {@link List} containing all commands that were added to the {@link #getCommands()} set
+     * @param <T> the type of the object that will be used to create the commands
+     * @param <C> the type of the commands that will be created
+     */
     public <T, C extends RegisteredCommand<?>> @NonNull List<C> registerCommands(@NonNull CommandFactory<T, C> factory, @NonNull T object) {
         List<C> commands = factory.createCommands(object);
         commands.removeIf(command -> !command.onRegister(this));
