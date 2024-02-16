@@ -1,3 +1,7 @@
+plugins {
+    id 'maven-publish'
+}
+
 apply plugin: 'java'
 
 group = 'com.wizardlybump17.command'
@@ -5,6 +9,17 @@ version = '1.0.0'
 
 targetCompatibility = JavaVersion.VERSION_21
 sourceCompatibility = JavaVersion.VERSION_21
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+javadoc {
+    options {
+        addStringOption('Xdoclint:none', '-quiet')
+    }
+}
 
 repositories {
     mavenCentral()
@@ -27,4 +42,22 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    repositories {
+        maven {
+            url = 'https://maven.pkg.github.com/WizardlyBump17/command'
+            credentials {
+                username = System.getenv('USERNAME')
+                password = System.getenv('TOKEN')
+            }
+        }
+    }
+
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
