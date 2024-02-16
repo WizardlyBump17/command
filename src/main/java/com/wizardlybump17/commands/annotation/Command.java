@@ -24,7 +24,7 @@ public @interface Command {
      *     <ul>
      *         <li>The command is split using spaces;</li>
      *         <li>Each part of the command is parsed as an {@link com.wizardlybump17.commands.node.ArgumentNode};</li>
-     *         <li>If a part is between arrows (< and >), it is tread as an user input argument.</li>
+     *         <li>If a part is between arrows (&lt; and &gt;), it is tread as an user input argument.</li>
      *     </ul>
      * </p>
      * @return the command syntax
